@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">au536878</string>
+    <string name="txtName">name</string>
+    <string name="txtYear">Year:</string>
+    <string name="txtRating">Rating:</string>
+    <string name="activity_rating_txtBarUserRating">User rating:</string>
+    <string name="detail_view_year">Year:</string>
+    <string name="detail_view_plot">Plot:</string>
+    <string name="detail_view_imb_rating">IMDb rating:</string>
+    <string name="detail_view_user_rating">User rating:</string>
+    <string name="detail_view_user_notes">User notes:</string>
+    <string name="detail_view_backbttn">Back</string>
+    <string name="detail_view_ratebttn">Rate</string>
+    <string name="detail_view_user_notes_placeholder">My thoughts were...</string>
+    <string name="rating_view_my_rating">My rating:</string>
+    <string name="rating_view_my_notes">My notes:</string>
+    <string name="rating_view_hint">10/10 would watch again!..</string>
+    <string name="rating_view_cancelbttn">Cancel</string>
+    <string name="rating_view_okbttn">Ok</string>
+    <string name="main_view_exit">Exit</string>
+</resources>

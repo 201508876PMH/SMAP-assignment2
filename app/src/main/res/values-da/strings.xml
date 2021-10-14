@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">au536878</string>
+    <string name="txtName">Navn:</string>
+    <string name="txtYear">År:</string>
+    <string name="txtRating">Bedømmelse:</string>
+    <string name="activity_rating_txtBarUserRating">Min bedømmelse:</string>
+    <string name="detail_view_year">År:</string>
+    <string name="detail_view_plot">Plot:</string>
+    <string name="detail_view_imb_rating">IMDb bedømmelse:</string>
+    <string name="detail_view_user_rating">Min bedømmelse:</string>
+    <string name="detail_view_user_notes">Mine noter:</string>
+    <string name="detail_view_backbttn">Tilbage</string>
+    <string name="detail_view_ratebttn">Anmeld</string>
+    <string name="detail_view_user_notes_placeholder">Mine tanker var...</string>
+    <string name="rating_view_my_rating">Min bedømmelse:</string>
+    <string name="rating_view_my_notes">Mine noter:</string>
+    <string name="rating_view_hint">10/10 ville se den igen!..</string>
+    <string name="rating_view_cancelbttn">Fortryd</string>
+    <string name="rating_view_okbttn">Ok</string>
+    <string name="main_view_exit">Afslut</string>
+</resources>
