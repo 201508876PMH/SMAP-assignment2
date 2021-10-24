@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import java.util.List;
 import dk.au.mad21fall.assignment1.au536878.MovieAdaptor;
 import dk.au.mad21fall.assignment1.au536878.R;
 import dk.au.mad21fall.assignment1.au536878.database.MovieEntity;
+import dk.au.mad21fall.assignment1.au536878.detailed.DetailedActivity;
 import dk.au.mad21fall.assignment1.au536878.utils.LoadCSV;
 
 public class MainActivity extends AppCompatActivity implements MovieAdaptor.IMovieItemClickedListener {
@@ -38,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdaptor.IMov
 
     //state
     private MainViewModel m;
-    private LoadCSV utils;
+    private LoadCSV utils = new LoadCSV();
 
 
     //data
@@ -51,11 +53,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdaptor.IMov
         instantiate();
 
         m = new ViewModelProvider(this).get(MainViewModel.class);
+        m.instantiateMovieModel(movies, getApplication());
 
-        if(m.getMovieData() == null){
-            utils.populateDB();
-            m.instantiateMovieModel(movies, getApplication());
-        }
+        m.getMovieData().observe(this, new Observer<List<MovieEntity>>() {
+            @Override
+            public void onChanged(List<MovieEntity> movieEntities) {
+                if(movieEntities.size() == 0){
+                    utils.populateDB(getApplication());
+                }
+            }
+        });
 
         m.getMovieData().observe(this, new Observer<List<MovieEntity>>() {
             @Override
@@ -86,13 +93,18 @@ public class MainActivity extends AppCompatActivity implements MovieAdaptor.IMov
     //callback when a person item is clicked in the list
     @Override
     public void onMovieClicked(int index) {
+        try {
+            MovieEntity fetchedMovie = m.getMovieData().getValue().get(index);
+            fetchedMovie.setIndex(String.valueOf(index));
+            Intent i = new Intent(this, DetailedActivity.class);
+            i.putExtra("index", fetchedMovie.getName());
 
-        MovieEntity fetchedMovie = m.getMovieData().getValue().get(index);
-        fetchedMovie.setIndex(String.valueOf(index));
-        Intent i = new Intent();
-        i.putExtra("index", fetchedMovie.getName());
+            resultFromDetailedActivity.launch(i);
 
-        resultFromDetailedActivity.launch(i);
+        }catch (Exception e){
+            Log.d("LORT", e.getMessage());
+        }
+
     }
 
 

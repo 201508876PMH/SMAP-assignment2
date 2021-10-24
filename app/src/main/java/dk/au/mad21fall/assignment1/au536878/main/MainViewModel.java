@@ -19,7 +19,6 @@ public class MainViewModel extends ViewModel {
     private Repository repository;
 
     public void instantiateMovieModel(List<MovieEntity> movieObjects, Application app){
-        movieList = new MutableLiveData<List<MovieEntity>>(movieObjects);
         repository = new Repository(app);
     }
 
@@ -28,9 +27,6 @@ public class MainViewModel extends ViewModel {
     }
 
     public void setMovieData(MovieEntity movieObject){
-        List<MovieEntity> currentData = movieList.getValue();
-        currentData.set(Integer.parseInt(movieObject.getIndex()), movieObject);
-        //setMovieData(currentData);
         repository.updateMovie(movieObject);
     }
 

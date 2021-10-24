@@ -6,6 +6,7 @@ import android.graphics.Movie;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.room.Entity;
 
 import java.util.List;
 
@@ -22,12 +23,11 @@ public class RatingViewModel extends ViewModel {
         movie = repository.findMovie(name);
     }
 
-    public LiveData<MovieEntity> getSpecificMovie(String movieName){
-        return movie;
-    }
-
     public MovieEntity getMovieObject(){
         return movie.getValue();
+    }
+    public LiveData<MovieEntity> getMovieObjectAsLiveData(){
+        return movie;
     }
 
     public void setMovieData(MovieEntity movieObject){

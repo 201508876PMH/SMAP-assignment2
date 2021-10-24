@@ -41,7 +41,7 @@ public class RatingActivity extends AppCompatActivity {
 
         m = new ViewModelProvider(this).get(RatingViewModel.class);
         m.instantiateMovieModel(getApplication(), intent.getStringExtra("index"));
-        LiveData<MovieEntity> movie = m.getSpecificMovie(intent.getStringExtra("index"));
+        LiveData<MovieEntity> movie = m.getMovieObjectAsLiveData();
 
         movie.observe(this, new Observer<MovieEntity>() {
             @Override
@@ -100,7 +100,8 @@ public class RatingActivity extends AppCompatActivity {
         });
     }
 
-    protected void updateUIFields(){
+    private void updateUI() {
+        userRating.setText(String.valueOf(m.getMovieObject().getUserRating()));
         movieTitle.setText(m.getMovieObject().getName());
         movieIcon.setImageResource(m.getMovieObject().getResourceIdFromGenre());
 
@@ -110,16 +111,6 @@ public class RatingActivity extends AppCompatActivity {
             progress = Integer.parseInt(m.getMovieObject().getUserRating());
         }
         multilineText.setText(m.getMovieObject().getUserNotes());
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        updateUI();
-    }
-
-    private void updateUI() {
-        userRating.setText(String.valueOf(m.getMovieObject().getUserRating()));
     }
 
     protected void bttnOKClick(){

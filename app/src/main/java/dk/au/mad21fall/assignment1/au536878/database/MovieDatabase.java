@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {MovieEntity.class}, version = 1)
+@Database(entities = {MovieEntity.class}, version = 3)
 public abstract class MovieDatabase extends RoomDatabase {
     public abstract IMovieDAO movieDao();    //mandatory DAO getter
     private static MovieDatabase instance;  //database instance for singleton

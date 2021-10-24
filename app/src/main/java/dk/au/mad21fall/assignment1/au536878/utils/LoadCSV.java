@@ -1,5 +1,7 @@
 package dk.au.mad21fall.assignment1.au536878.utils;
 
+import android.app.Application;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.BufferedReader;
@@ -9,17 +11,17 @@ import java.io.InputStreamReader;
 import dk.au.mad21fall.assignment1.au536878.database.MovieEntity;
 import dk.au.mad21fall.assignment1.au536878.repository.Repository;
 
-public class LoadCSV extends AppCompatActivity {
+public class LoadCSV {
 
     private Repository repository;
 
-    public void populateDB(){
+    public void populateDB(Application app){
 
-        repository = new Repository(getApplication());
+        repository = new Repository(app);
 
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new InputStreamReader(getAssets().open("movie_data.csv")));
+            reader = new BufferedReader(new InputStreamReader(app.getAssets().open("movie_data.csv")));
             // do reading, usually loop until end of file reading
 
             String mLine;

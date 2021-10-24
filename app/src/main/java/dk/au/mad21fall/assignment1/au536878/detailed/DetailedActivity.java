@@ -87,13 +87,19 @@ public class DetailedActivity extends AppCompatActivity {
     }
 
     protected void onRateClick(){
-        Intent intentResult = IntentTransferHelper.prepareIntentFromMovieData(m.getMovieObject(), this, RatingActivity.class);
-        resultFromRatingActivity.launch(intentResult);
+        //Intent intentResult = IntentTransferHelper.prepareIntentFromMovieData(m.getMovieObject(), this, RatingActivity.class);
+        //resultFromRatingActivity.launch(intentResult);
+
+        MovieEntity fetchedMovie = m.getMovieObject();
+        Intent i = new Intent(this, RatingActivity.class);
+        i.putExtra("index", fetchedMovie.getName());
+
+        resultFromRatingActivity.launch(i);
     }
 
     protected void onBackClick(){
-        Intent i = IntentTransferHelper.prepareIntentFromMovieData(m.getMovieObject());
-        setResult(RESULT_OK,i);
+        //Intent i = IntentTransferHelper.prepareIntentFromMovieData(m.getMovieObject());
+        //setResult(RESULT_OK,i);
         finish();
     }
 
