@@ -4,6 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Locale;
+
+import dk.au.mad21fall.assignment1.au536878.R;
+
 @Entity
 public class MovieEntity {
     @NonNull
@@ -28,6 +32,25 @@ public class MovieEntity {
         this.plot = plot;
         this.userNotes = userNotes;
         this.userRating = userRating;
+    }
+
+    public int getResourceIdFromGenre(){
+        switch(genre.toLowerCase(Locale.ROOT)) {
+            case "action":
+                return R.drawable.action;
+            case "comedy":
+                return R.drawable.comedy;
+            case "drama":
+                return R.drawable.drama;
+            case "horror":
+                return R.drawable.horror;
+            case "romance":
+                return R.drawable.romance;
+            case "western":
+                return R.drawable.western;
+            default:
+                return R.drawable.ic_launcher_background;
+        }
     }
 
     public String getName() {

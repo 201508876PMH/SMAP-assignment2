@@ -23,7 +23,7 @@ public class Repository {
         return movies;
     }
 
-    public MovieEntity findMovie(String name){
+    public LiveData<MovieEntity> findMovie(String name){
         return db.movieDao().findMovie(name);
     }
 

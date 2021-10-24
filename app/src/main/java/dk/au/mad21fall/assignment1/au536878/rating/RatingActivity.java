@@ -1,21 +1,22 @@
-package dk.au.mad21fall.assignment1.au536878;
+package dk.au.mad21fall.assignment1.au536878.rating;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+
+import dk.au.mad21fall.assignment1.au536878.IntentTransferHelper;
+import dk.au.mad21fall.assignment1.au536878.R;
+import dk.au.mad21fall.assignment1.au536878.database.MovieEntity;
 
 public class RatingActivity extends AppCompatActivity {
 
@@ -26,26 +27,26 @@ public class RatingActivity extends AppCompatActivity {
     SeekBar seekbar;
     int progress = 0;
 
-    Bundle extras;
-    private MovieViewModel m;
+    private RatingViewModel m;
+    Intent intent;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rating);
-        extras = getIntent().getExtras();
+        intent = getIntent();
 
         instantiateUIFields();
 
-        Movie movie = IntentTransferHelper.constructMovieDataFromIntent(getIntent());
+        m = new ViewModelProvider(this).get(RatingViewModel.class);
+        m.instantiateMovieModel(getApplication(), intent.getStringExtra("index"));
+        LiveData<MovieEntity> movie = m.getSpecificMovie(intent.getStringExtra("index"));
 
-        m = new ViewModelProvider(this).get(MovieViewModel.class);
-        m.instantiateMovieModel(movie);
-        m.getMovieData().observe(this, new Observer<Movie>() {
+        movie.observe(this, new Observer<MovieEntity>() {
             @Override
-            public void onChanged(Movie movie) {
-                updateUIFields();
+            public void onChanged(MovieEntity movieEntity) {
+                updateUI();
             }
         });
     }
@@ -65,7 +66,7 @@ public class RatingActivity extends AppCompatActivity {
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                m.getMovieData().getValue().userRating = String.valueOf(i);
+                m.getMovieObject().setUserRating(String.valueOf(i));
                 updateUI();
             }
 
@@ -93,21 +94,22 @@ public class RatingActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                m.getMovieData().getValue().userNotes = editable.toString();
+                m.getMovieObject().setUserNotes(editable.toString());
+                //m.getSpecificMovie() = editable.toString();
             }
         });
     }
 
     protected void updateUIFields(){
-        movieTitle.setText(m.getMovieData().getValue().name);
-        movieIcon.setImageResource(m.getMovieData().getValue().getResourceIdFromGenre());
+        movieTitle.setText(m.getMovieObject().getName());
+        movieIcon.setImageResource(m.getMovieObject().getResourceIdFromGenre());
 
-        if(m.getMovieData().getValue().userRating.equals("X")){
+        if(m.getMovieObject().getUserRating().equals("X")){
             progress = 0;
         }else{
-            progress = Integer.parseInt(m.getMovieData().getValue().userRating);
+            progress = Integer.parseInt(m.getMovieObject().getUserRating());
         }
-        multilineText.setText(m.getMovieData().getValue().userNotes);
+        multilineText.setText(m.getMovieObject().getUserNotes());
     }
 
     @Override
@@ -117,11 +119,11 @@ public class RatingActivity extends AppCompatActivity {
     }
 
     private void updateUI() {
-        userRating.setText(String.valueOf(m.getMovieData().getValue().userRating));
+        userRating.setText(String.valueOf(m.getMovieObject().getUserRating()));
     }
 
     protected void bttnOKClick(){
-        Intent i = IntentTransferHelper.prepareIntentFromMovieData(m.getMovieData().getValue());
+        Intent i = IntentTransferHelper.prepareIntentFromMovieData(m.getMovieObject());
         setResult(RESULT_OK, i);
         finish();
     }

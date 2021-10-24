@@ -5,47 +5,49 @@ import android.content.Intent;
 
 import java.lang.reflect.Type;
 
+import dk.au.mad21fall.assignment1.au536878.database.MovieEntity;
+
 public class IntentTransferHelper {
-    public static Intent prepareIntentFromMovieData(Movie movieObject, Context owner, Class classType){
+    public static Intent prepareIntentFromMovieData(MovieEntity movieObject, Context owner, Class classType){
         Intent i =  new Intent(owner, classType);
 
-        i.putExtra("movieName", movieObject.name);
-        i.putExtra("movieYear", movieObject.year);
-        i.putExtra("movieRating", movieObject.movieRating);
-        i.putExtra("moviePlot", movieObject.plot);
-        i.putExtra("movieGenre", movieObject.genre);
-        i.putExtra("userNotes", movieObject.userNotes);
-        i.putExtra("userRating", movieObject.userRating);
-        i.putExtra("index", movieObject.index);
+        i.putExtra("movieName", movieObject.getName());
+        i.putExtra("movieYear", movieObject.getYear());
+        i.putExtra("movieRating", movieObject.getMovieRating());
+        i.putExtra("moviePlot", movieObject.getPlot());
+        i.putExtra("movieGenre", movieObject.getGenre());
+        i.putExtra("userNotes", movieObject.getUserNotes());
+        i.putExtra("userRating", movieObject.getUserRating());
+        i.putExtra("index", movieObject.getIndex());
 
         return i;
     }
-    public static Intent prepareIntentFromMovieData(Movie movieObject){
+    public static Intent prepareIntentFromMovieData(MovieEntity movieObject){
         Intent i =  new Intent();
 
-        i.putExtra("movieName", movieObject.name);
-        i.putExtra("movieYear", movieObject.year);
-        i.putExtra("movieRating", movieObject.movieRating);
-        i.putExtra("moviePlot", movieObject.plot);
-        i.putExtra("movieGenre", movieObject.genre);
-        i.putExtra("userNotes", movieObject.userNotes);
-        i.putExtra("userRating", movieObject.userRating);
-        i.putExtra("index", movieObject.index);
+        i.putExtra("movieName", movieObject.getName());
+        i.putExtra("movieYear", movieObject.getYear());
+        i.putExtra("movieRating", movieObject.getMovieRating());
+        i.putExtra("moviePlot", movieObject.getPlot());
+        i.putExtra("movieGenre", movieObject.getGenre());
+        i.putExtra("userNotes", movieObject.getUserNotes());
+        i.putExtra("userRating", movieObject.getUserRating());
+        i.putExtra("index", movieObject.getIndex());
 
         return i;
     }
 
-    public static Movie constructMovieDataFromIntent(Intent i){
-        Movie m = new Movie();
+    public static MovieEntity constructMovieDataFromIntent(Intent i){
+        MovieEntity m = new MovieEntity();
 
-        m.name = i.getStringExtra("movieName");
-        m.year = i.getStringExtra("movieYear");
-        m.movieRating = i.getStringExtra("movieRating");
-        m.plot = i.getStringExtra("moviePlot");
-        m.genre = i.getStringExtra("movieGenre");
-        m.userNotes = i.getStringExtra("userNotes");
-        m.userRating = i.getStringExtra("userRating");
-        m.index = i.getStringExtra("index");
+        m.setName(i.getStringExtra("movieName"));
+        m.setYear(i.getStringExtra("movieYear"));
+        m.setMovieRating(i.getStringExtra("movieRating"));
+        m.setPlot(i.getStringExtra("moviePlot"));
+        m.setGenre(i.getStringExtra("movieGenre"));
+        m.setUserNotes(i.getStringExtra("userNotes"));
+        m.setUserRating(i.getStringExtra("userRating"));
+        m.setIndex(i.getStringExtra("index"));
 
         return m;
     }

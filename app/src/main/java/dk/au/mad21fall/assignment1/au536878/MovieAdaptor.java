@@ -11,6 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import dk.au.mad21fall.assignment1.au536878.database.MovieEntity;
 
 public class MovieAdaptor extends RecyclerView.Adapter<MovieAdaptor.MovieViewHolder> {
 
@@ -23,7 +26,7 @@ public class MovieAdaptor extends RecyclerView.Adapter<MovieAdaptor.MovieViewHol
     private IMovieItemClickedListener listener;
     
     //data in the adaptor
-    private ArrayList<Movie> movieList;
+    private List<MovieEntity> movieList;
 
 
     //constructor
@@ -32,7 +35,7 @@ public class MovieAdaptor extends RecyclerView.Adapter<MovieAdaptor.MovieViewHol
     }
 
     //a method for updating the list - causes the adaptor/recycleview to update
-    public void updateMovieList(ArrayList<Movie> lists){
+    public void updateMovieList(List<MovieEntity> lists){
         movieList = lists;
         notifyDataSetChanged();
     }
@@ -53,9 +56,9 @@ public class MovieAdaptor extends RecyclerView.Adapter<MovieAdaptor.MovieViewHol
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-        holder.txtName.setText(movieList.get(position).name);
-        holder.txtYear.setText(movieList.get(position).year);
-        holder.txtIMBD.setText(movieList.get(position).userRating);
+        holder.txtName.setText(movieList.get(position).getName());
+        holder.txtYear.setText(movieList.get(position).getYear());
+        holder.txtIMBD.setText(movieList.get(position).getUserRating());
         holder.imgIcon.setImageResource(movieList.get(position).getResourceIdFromGenre());
     }
 

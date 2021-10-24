@@ -16,7 +16,7 @@ public interface IMovieDAO {
     LiveData<List<MovieEntity>> getAll();
 
     @Query("SELECT * FROM MovieEntity WHERE name LIKE :name")
-    MovieEntity findMovie(String name);
+    LiveData<MovieEntity> findMovie(String name);
 
     @Query("SELECT * FROM MovieEntity WHERE genre LIKE :genre")
     List<MovieEntity> getMoviesFromGenre(String genre);
