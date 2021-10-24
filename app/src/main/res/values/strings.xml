@@ -18,4 +18,5 @@
     <string name="rating_view_cancelbttn">Cancel</string>
     <string name="rating_view_okbttn">Ok</string>
     <string name="main_view_exit">Exit</string>
+    <string name="main_activity_add" />
 </resources>

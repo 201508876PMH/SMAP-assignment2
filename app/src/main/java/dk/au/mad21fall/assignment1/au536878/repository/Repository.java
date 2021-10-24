@@ -1,6 +1,7 @@
 package dk.au.mad21fall.assignment1.au536878.repository;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
@@ -12,11 +13,17 @@ import dk.au.mad21fall.assignment1.au536878.database.MovieEntity;
 public class Repository {
     private MovieDatabase db;                   //database
     private LiveData<List<MovieEntity>> movies; //livedata
+    private MovieRequester mr;
 
     //constructor - takes application object for context
     public Repository(Application app){
         db = MovieDatabase.getDatabase(app.getApplicationContext());
+        mr = new MovieRequester(this);
         movies = db.movieDao().getAll();
+    }
+
+    public void requestMovie(String movieName, Context context){
+        mr.requestMovie(movieName, context);
     }
 
     public LiveData<List<MovieEntity>> getMovies() {

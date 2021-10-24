@@ -12,9 +12,11 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -25,6 +27,7 @@ import dk.au.mad21fall.assignment1.au536878.MovieAdaptor;
 import dk.au.mad21fall.assignment1.au536878.R;
 import dk.au.mad21fall.assignment1.au536878.database.MovieEntity;
 import dk.au.mad21fall.assignment1.au536878.detailed.DetailedActivity;
+import dk.au.mad21fall.assignment1.au536878.repository.MovieRequester;
 import dk.au.mad21fall.assignment1.au536878.utils.LoadCSV;
 
 public class MainActivity extends AppCompatActivity implements MovieAdaptor.IMovieItemClickedListener {
@@ -33,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdaptor.IMov
     //widgets
     private RecyclerView rcvList;
     private MovieAdaptor adaptor;
-    private Button bttnExit;
+    private Button bttnExit, bttnAdd;
     private TextView userRating;
 
     ActivityResultLauncher<Intent> resultFromDetailedActivity;
@@ -41,7 +44,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdaptor.IMov
     //state
     private MainViewModel m;
     private LoadCSV utils = new LoadCSV();
-
 
     //data
     private ArrayList<MovieEntity> movies = new ArrayList<>();
@@ -61,12 +63,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdaptor.IMov
                 if(movieEntities.size() == 0){
                     utils.populateDB(getApplication());
                 }
-            }
-        });
 
-        m.getMovieData().observe(this, new Observer<List<MovieEntity>>() {
-            @Override
-            public void onChanged(List<MovieEntity> movieEntities) {
                 adaptor.updateMovieList(movieEntities);
             }
         });
@@ -86,9 +83,14 @@ public class MainActivity extends AppCompatActivity implements MovieAdaptor.IMov
         adaptor.updateMovieList(movies);
 
         bttnExit = findViewById(R.id.bttnExit);
+        bttnAdd = findViewById(R.id.bttnAdd);
         bttnExit.setOnClickListener((view -> finish()));
+        bttnAdd.setOnClickListener((view -> addMovie("The Terminator", this)));
     }
 
+    public void addMovie(String movieName, Context context){
+        m.requestMovie(movieName, context);
+    }
 
     //callback when a person item is clicked in the list
     @Override

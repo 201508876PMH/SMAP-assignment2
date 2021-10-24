@@ -30,4 +30,7 @@ public class MainViewModel extends ViewModel {
         repository.updateMovie(movieObject);
     }
 
+    public void requestMovie(String movieName, Context context){
+        repository.requestMovie(movieName, context);
+    }
 }
