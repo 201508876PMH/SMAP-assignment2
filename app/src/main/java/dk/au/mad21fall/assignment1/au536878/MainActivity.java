@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import dk.au.mad21fall.assignment1.au536878.repository.Repository;
+
 public class MainActivity extends AppCompatActivity implements MovieAdaptor.IMovieItemClickedListener {
 
 
@@ -34,7 +36,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdaptor.IMov
 
     ActivityResultLauncher<Intent> resultFromDetailedActivity;
 
+    //state
     private MainViewModel m;
+    private Repository repository;
 
     //data
     private ArrayList<Movie> movies = new ArrayList<>();
