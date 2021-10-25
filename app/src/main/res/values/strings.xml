@@ -19,4 +19,5 @@
     <string name="rating_view_okbttn">Ok</string>
     <string name="main_view_exit">Exit</string>
     <string name="main_activity_add" />
+    <string name="searchHere" />
 </resources>

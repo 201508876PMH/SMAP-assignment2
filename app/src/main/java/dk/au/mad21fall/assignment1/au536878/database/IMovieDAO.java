@@ -21,6 +21,7 @@ public interface IMovieDAO {
     @Query("SELECT * FROM MovieEntity WHERE genre LIKE :genre")
     List<MovieEntity> getMoviesFromGenre(String genre);
 
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void addMovie(MovieEntity movie);
 

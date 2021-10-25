@@ -6,6 +6,8 @@ import android.content.Context;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import dk.au.mad21fall.assignment1.au536878.database.MovieDatabase;
 import dk.au.mad21fall.assignment1.au536878.database.MovieEntity;
@@ -14,12 +16,14 @@ public class Repository {
     private MovieDatabase db;                   //database
     private LiveData<List<MovieEntity>> movies; //livedata
     private MovieRequester mr;
+    private ExecutorService executorService;    //allows for methods to be off-loaded Mainthread
 
     //constructor - takes application object for context
     public Repository(Application app){
         db = MovieDatabase.getDatabase(app.getApplicationContext());
         mr = new MovieRequester(this);
         movies = db.movieDao().getAll();
+        executorService = Executors.newSingleThreadExecutor();
     }
 
     public void requestMovie(String movieName, Context context){
@@ -39,14 +43,30 @@ public class Repository {
     }
 
     public void addMovie(MovieEntity movie){
-        db.movieDao().addMovie(movie);
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                db.movieDao().addMovie(movie);
+            }
+        });
+
     }
 
     public void updateMovie(MovieEntity movie){
-        db.movieDao().updateMovie(movie);
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                db.movieDao().updateMovie(movie);
+            }
+        });
     }
 
     public void delete(MovieEntity movie){
-        db.movieDao().delete(movie);
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                db.movieDao().delete(movie);
+            }
+        });
     }
 }

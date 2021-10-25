@@ -25,6 +25,10 @@ public class DetailedViewModel extends ViewModel {
         return movie.getValue();
     }
 
+    public void deleteMovie(MovieEntity movieObject){
+        repository.delete(movieObject);
+    }
+
     public void setMovieData(MovieEntity movieObject){
         repository.updateMovie(movieObject);
     }

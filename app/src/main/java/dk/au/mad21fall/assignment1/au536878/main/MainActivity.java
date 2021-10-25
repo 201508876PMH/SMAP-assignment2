@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdaptor.IMov
     private RecyclerView rcvList;
     private MovieAdaptor adaptor;
     private Button bttnExit, bttnAdd;
-    private TextView userRating;
+    private TextView userRating, searchHere;
 
     ActivityResultLauncher<Intent> resultFromDetailedActivity;
 
@@ -72,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdaptor.IMov
     protected void instantiate(){
         setContentView(R.layout.activity_main);
         userRating = findViewById(R.id.list_item_MovieRating);
+        searchHere = findViewById(R.id.searchHere);
 
         //set up recyclerview with adaptor and layout manager
         adaptor = new MovieAdaptor(this);
@@ -85,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdaptor.IMov
         bttnExit = findViewById(R.id.bttnExit);
         bttnAdd = findViewById(R.id.bttnAdd);
         bttnExit.setOnClickListener((view -> finish()));
-        bttnAdd.setOnClickListener((view -> addMovie("The Terminator", this)));
+        bttnAdd.setOnClickListener((view -> addMovie(searchHere.getText().toString(), this)));
     }
 
     public void addMovie(String movieName, Context context){
@@ -104,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdaptor.IMov
             resultFromDetailedActivity.launch(i);
 
         }catch (Exception e){
-            Log.d("LORT", e.getMessage());
+            Log.d("Error", e.getMessage());
         }
 
     }

@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Locale;
 
 import dk.au.mad21fall.assignment1.au536878.R;
@@ -12,11 +15,24 @@ import dk.au.mad21fall.assignment1.au536878.R;
 public class MovieEntity {
     @NonNull
     @PrimaryKey(autoGenerate = false)
+    @Expose
+    @SerializedName("Title")
     private String name;
 
+    @Expose
+    @SerializedName("Genre")
     private String genre;
+
+    @Expose
+    @SerializedName("Year")
     private String year;
+
+    @Expose
+    @SerializedName("imdbRating")
     private String movieRating;
+
+    @Expose
+    @SerializedName("Plot")
     private String plot;
     private String userNotes;
     private String userRating;
@@ -49,7 +65,7 @@ public class MovieEntity {
             case "western":
                 return R.drawable.western;
             default:
-                return R.drawable.ic_launcher_background;
+                return R.drawable.action;
         }
     }
 

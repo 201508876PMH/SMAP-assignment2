@@ -25,7 +25,7 @@ import dk.au.mad21fall.assignment1.au536878.detailed.DetailedViewModel;
 
 public class DetailedActivity extends AppCompatActivity {
 
-    Button bttnBack, bttnRate;
+    Button bttnBack, bttnRate, bttnDelete;
     TextView movieTitle, movieYear, movieRating,
             movieGenre, moviePlot, userRating, userNotes;
     ImageView movieIcon;
@@ -51,7 +51,10 @@ public class DetailedActivity extends AppCompatActivity {
         movie.observe(this, new Observer<MovieEntity>() {
             @Override
             public void onChanged(MovieEntity movieEntity) {
-                updateUIFields();
+                if(movieEntity != null){
+                    updateUIFields();
+                }
+
             }
         });
 
@@ -84,6 +87,15 @@ public class DetailedActivity extends AppCompatActivity {
 
         bttnRate = findViewById(R.id.bttnRate);
         bttnRate.setOnClickListener((view -> onRateClick()));
+
+        bttnDelete = findViewById(R.id.delete);
+        bttnDelete.setOnClickListener((view -> onDeleteClick()));
+    }
+
+    protected void onDeleteClick(){
+        MovieEntity fetchedMovie = m.getMovieObject();
+        m.deleteMovie(fetchedMovie);
+        finish();
     }
 
     protected void onRateClick(){
@@ -98,8 +110,6 @@ public class DetailedActivity extends AppCompatActivity {
     }
 
     protected void onBackClick(){
-        //Intent i = IntentTransferHelper.prepareIntentFromMovieData(m.getMovieObject());
-        //setResult(RESULT_OK,i);
         finish();
     }
 

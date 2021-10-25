@@ -14,6 +14,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+
+import org.json.JSONObject;
 
 import dk.au.mad21fall.assignment1.au536878.database.MovieEntity;
 
@@ -39,9 +42,8 @@ public class MovieRequester {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, movieURL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                parseJSON(response);
+                parseJSON(response, context);
                 Log.d("MovieRequester","onResponse: " + response);
-                Toast.makeText(context, "Movie " + movieName + " added!", Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -54,9 +56,27 @@ public class MovieRequester {
         queue.add(stringRequest);
     }
 
-    private void parseJSON(String json){
-        Gson gson = new GsonBuilder().create();
-        MovieEntity movie = gson.fromJson(json, MovieEntity.class);
-        repository.addMovie(movie);
+    private void parseJSON(String json, Context context){
+        Gson gsonBuilder = new GsonBuilder().create();
+        JsonObject jsonObject = gsonBuilder.fromJson(json, JsonObject.class);
+        try{
+            if(jsonObject.has("Error")){
+                Toast.makeText(context, "Movie can't be found", Toast.LENGTH_SHORT).show();
+            }else{
+                Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+                MovieEntity movie = gson.fromJson(json, MovieEntity.class);
+
+                if(movie.getGenre().split(",").length > 1){
+                    movie.setGenre(movie.getGenre().split(",")[0]);
+                }
+                movie.setUserRating("X");
+                movie.setUserNotes(" ");
+                repository.addMovie(movie);
+                Toast.makeText(context, "Movie added!", Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception e){
+            Toast.makeText(context, "An error occurred: " + e, Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
