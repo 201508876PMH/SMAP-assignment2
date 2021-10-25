@@ -13,7 +13,7 @@ public class DetailedViewModel extends ViewModel {
     private Repository repository;
 
     public void instantiateMovieModel(Application app, String name){
-        repository = new Repository(app);
+        repository = Repository.getRepositoryInstance(app);
         movie = repository.findMovie(name);
     }
 

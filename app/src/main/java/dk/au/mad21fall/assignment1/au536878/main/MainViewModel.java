@@ -19,7 +19,7 @@ public class MainViewModel extends ViewModel {
     private Repository repository;
 
     public void instantiateMovieModel(List<MovieEntity> movieObjects, Application app){
-        repository = new Repository(app);
+        repository = Repository.getRepositoryInstance(app);
     }
 
     public LiveData<List<MovieEntity>> getMovieData(){

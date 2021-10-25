@@ -17,13 +17,20 @@ public class Repository {
     private LiveData<List<MovieEntity>> movies; //livedata
     private MovieRequester mr;
     private ExecutorService executorService;    //allows for methods to be off-loaded Mainthread
+    private static Repository singletonRepository;
 
     //constructor - takes application object for context
-    public Repository(Application app){
+    private Repository(Application app){
         db = MovieDatabase.getDatabase(app.getApplicationContext());
         mr = new MovieRequester(this);
         movies = db.movieDao().getAll();
         executorService = Executors.newSingleThreadExecutor();
+    }
+    public static Repository getRepositoryInstance(Application app){
+        if(singletonRepository == null){
+            singletonRepository = new Repository(app);
+        }
+        return singletonRepository;
     }
 
     public void requestMovie(String movieName, Context context){

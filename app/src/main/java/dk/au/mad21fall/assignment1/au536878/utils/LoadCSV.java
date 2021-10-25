@@ -17,7 +17,7 @@ public class LoadCSV {
 
     public void populateDB(Application app){
 
-        repository = new Repository(app);
+        repository = Repository.getRepositoryInstance(app);
 
         BufferedReader reader = null;
         try {
