@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,6 +32,7 @@ import dk.au.mad21fall.assignment1.au536878.database.MovieEntity;
 import dk.au.mad21fall.assignment1.au536878.detailed.DetailedActivity;
 import dk.au.mad21fall.assignment1.au536878.repository.MovieRequester;
 import dk.au.mad21fall.assignment1.au536878.utils.LoadCSV;
+import dk.au.mad21fall.assignment1.au536878.utils.NotificationService;
 
 public class MainActivity extends AppCompatActivity implements MovieAdaptor.IMovieItemClickedListener {
 
@@ -72,6 +74,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdaptor.IMov
     }
 
     protected void instantiate(){
+        //Notification service
+        Intent intent = new Intent(this, NotificationService.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            startService(intent);
+        }
+
         setContentView(R.layout.activity_main);
         userRating = findViewById(R.id.list_item_MovieRating);
         searchHere = findViewById(R.id.searchHere);
